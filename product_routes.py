@@ -1,4 +1,5 @@
 from flask import Blueprint, jsonify, request
+from models import Products
 
 route_products = Blueprint('route_products', __name__)
 
