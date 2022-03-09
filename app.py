@@ -3,6 +3,7 @@ from flask_cors import CORS
 from flask_migrate import Migrate
 
 from models import db, Products, Category
+from product_routes import route_products
 
 app = Flask(__name__)
 app.url_map.strict_slashes = False
@@ -16,11 +17,13 @@ db.init_app(app)
 Migrate(app, db)
 CORS(app)
 
+app.register_blueprint(route_products, url_prefix='/api')
+
 @app.route('/', methods=['GET'])
 def main():
     return render_template('index.html')
 
-@app.route('/products', methods=['GET'])
+""" @app.route('/products', methods=['GET'])
 def get_products():
     product = Products.query.all()
     product = list(map(lambda product: product.serialize(), product))
@@ -32,7 +35,7 @@ def get_product_by_id(id):
     product = Products.query.get(id)
     if product is None:
         return jsonify({"message": "Product not found"}), 404
-    return jsonify(product.serialize()), 200
+    return jsonify(product.serialize()), 200 """
 
 @app.route('/category', methods=['GET'])
 def get_category():
